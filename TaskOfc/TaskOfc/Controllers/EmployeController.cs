@@ -46,8 +46,7 @@ namespace TaskOfc.Controllers
             {
                 if (employe != null)
                 {
-                  var nbsd = _context.Employes.Find(employe.ID);
-                   employe.Picture = nbsd.Picture;
+                   
                  _context.Update(employe);
                 _context.SaveChanges();
                     

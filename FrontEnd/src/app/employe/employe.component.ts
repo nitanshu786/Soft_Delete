@@ -1,6 +1,10 @@
+
 import { EmployesService } from './../employes.service';
 import { Employe } from './../employe';
+import Swal from 'sweetalert2';
 import { Component } from '@angular/core';
+
+
 
 @Component({
   selector: 'app-employe',
@@ -11,24 +15,36 @@ export class EmployeComponent {
   Emplist: Employe[]=[];
   NewEmploye:Employe= new Employe();
   EditEmploye:Employe= new Employe();
+  url:any;
  
   constructor(private Empservice : EmployesService){}
 
   ngOnInit(): void {
+   
+    
     this.getALL();
   }
+  
 
+  onselected(event: any): void {
+  const file: File = event.target.files[0];
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = (event:any) => {
+    this.url=event.target.result;
+    const base64String: string = reader.result as string;
+    this.NewEmploye.picture= base64String
+    this.EditEmploye.picture=base64String
+    
+    
+  };
+}
 
-
-  onFileSelected(event: any) {
-    const file: File = event.target.files[0];
-    const formData: FormData = new FormData();
-    formData.append('image', file, file.name);
-     this.Empservice.  uploadImage(formData);
-  }
 
   getALL()
   {
+    
+
     this.Empservice.GetEmployes().subscribe(
       (respnse)=>{
         this.Emplist=respnse
@@ -39,10 +55,6 @@ export class EmployeComponent {
       }
     )
   }
-
- 
-  
-   
   
   Save()
   {
@@ -67,7 +79,7 @@ export class EmployeComponent {
     
   }
 
-  update()
+  Update()
   {
     this.Empservice.updateemploye(this.EditEmploye).subscribe(
       (response)=>{
@@ -80,17 +92,38 @@ export class EmployeComponent {
     )
   }
 
-  deleteclick(id:number)
-  {
-    
-    this.Empservice.Delete(id).subscribe(
-      (response)=>{
-        this.getALL();
-      },
-      (error)=>{
-        console.log(error);
-      }
-    )
-  }
 
+DeleteClick(id:Number)
+{  
+
+  Swal.fire({  
+    title: 'Are you sure want to remove?',  
+    text: 'You will not be able to recover this file!',  
+    icon: 'warning',  
+    showCancelButton: true,  
+    confirmButtonText: 'Yes, delete it!',  
+    cancelButtonText: 'No, keep it'  
+  }).then((result) => {  
+    if (result.value)
+    {
+      this.Empservice.Delete(id).subscribe(
+        (response)=>{
+          this.getALL();
+        })
+
+      Swal.fire(  
+        'Deleted!',  
+        'Your imaginary file has been deleted.',  
+        'success'  
+      )  
+    } else if (result.dismiss === Swal.DismissReason.cancel) {  
+      Swal.fire(  
+        'Cancelled',  
+        'Your imaginary file is safe :)',  
+        'error'  
+      )  
+    }  
+  })  
+}  
 }
+

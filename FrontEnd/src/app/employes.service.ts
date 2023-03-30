@@ -31,8 +31,5 @@ export class EmployesService {
     return this.httpClient.delete<any>("https://localhost:44374/api/Employe/DeleteEmploye?id="+Id)
   }
 
-  uploadImage(newemp:FormData):Observable<Employe>
-  {
-    return this.httpClient.post<Employe>("https://localhost:44374/api/Employe/saveEmploye",newemp)
-  }
+  
 }
