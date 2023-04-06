@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "l125UnaLiGbnkmoRYasKcL31YQI9me1kE33ktzEsXQhfkRWW1yW7l8uEdpdVLOpz+XRczPUdKxpV/Ps9nSlmrA==",
+  "dgSpecHash": "fNZ4cvDHZsfLQu/Cp9NIz8zIUBqO3QZd+v+KTVvQobkgMUvxX2ob64oLzCoQazF2y7U7LbzO43naKEcwJ6qhgQ==",
   "success": true,
-  "projectFilePath": "D:\\LoginTask\\WebApplication1\\WebApplication1\\WebApplication1.csproj",
+  "projectFilePath": "D:\\TaskAngular\\EncryptionTask\\WebApplication1\\WebApplication1\\WebApplication1.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\hp\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
     "C:\\Users\\hp\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",

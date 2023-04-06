@@ -13,6 +13,7 @@ namespace WebApplication1.Data
         {
 
         }
-        public  DbSet<Register> Registers { get; set; }
+        public DbSet<Register> Registers { get; set; }
+        public DbSet<Employee> Employees { get; set; }
     }
 }

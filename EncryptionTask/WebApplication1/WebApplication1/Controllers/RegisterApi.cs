@@ -33,12 +33,13 @@ namespace WebApplication1.Controllers
                 var reg = _register.IsUniqueUser(registerdto.UserName ,registerdto.Email);
                 if (!reg) return BadRequest("Username already exist please try new username");
                 var logs = _mapper.Map<RegisterDTO, Register>(registerdto);
-                var gg=  _register.Registers(logs.UserName, logs.Password,logs.Email);
+                var gg=  _register.Registers(logs.UserName, Encryption(logs.Password),logs.Email);
                 if (gg == null) return BadRequest();
                 else
                     return Ok(gg);
             }
             return Ok();
+            //
         
         }
         [HttpPost("Login")]
@@ -48,14 +49,25 @@ namespace WebApplication1.Controllers
            
             var user = _mapper.Map<LoginDTO, LoginVM>(loginVM);
            
-            var log = _register.Login(user.Email, user.Password);
+            var log = _register.Login(user.Email,Encryption(user.Password));
             if (log == null) return BadRequest("wrong username & passward please enter valid usename & passward");
+           
             return Ok(log);
         }
-
-
-       
+        public static string Encryption(string password)
+        {
+            if (string.IsNullOrEmpty(password))
+                return null;
+            else
+            {
+                byte[] storepassword = Encoding.ASCII.GetBytes(password);
+                string encryption = Convert.ToBase64String(storepassword);
+                return encryption;
+            }
         }
+
+
+    }
 
 
 

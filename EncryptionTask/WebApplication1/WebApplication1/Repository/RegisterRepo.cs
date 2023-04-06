@@ -26,10 +26,9 @@ namespace WebApplication1.Repository
 
         public Register Login(string Email, string passward)
         {
-            Register reg = new Register();
-            
-           
-            var auth = _context.Registers.FirstOrDefault(s => s.Email == Email && Decryption( s.Password) == passward.ToString());
+
+            var auth = _context.Registers.FirstOrDefault(s => s.Email == Email && s.Password == passward);
+            Decryption(auth.Password);
 
             if (auth == null)
                 return null;
@@ -57,6 +56,20 @@ namespace WebApplication1.Repository
                 return auth;
             }
         }
+        public string Decryption(string password)
+        {
+            if (string.IsNullOrEmpty(password))
+                return null;
+            else
+            {
+                byte[] encryption = Convert.FromBase64String(password);
+                string dencryption = Encoding.ASCII.GetString(encryption);
+               
+                return dencryption;
+                
+            }
+
+        }
 
 
 
@@ -81,7 +94,7 @@ namespace WebApplication1.Repository
             Register register = new Register()
             {
                 UserName = UserName,
-                Password = Encryption(Passward),
+                Password = Passward,
                 Email = Email
             };
 
@@ -90,31 +103,8 @@ namespace WebApplication1.Repository
             return register;
         }
 
-        public static string Encryption(string password)
-        {
-            if (string.IsNullOrEmpty(password))
-                return null;
-            else
-            {
-                byte[] storepassword = Encoding.ASCII.GetBytes(password);
-                string encryption = Convert.ToBase64String(storepassword);
-                return encryption;
-            }
-        }
-
-        public static string Decryption(string password)
-        {
-            if (string.IsNullOrEmpty(password))
-                return null;
-            else
-            {
-                byte[] encryption = Convert.FromBase64String(password);
-                string dencryption = Encoding.ASCII.GetString(encryption);
-                return dencryption;
-
-            }
 
 
-        }
+       
     }
 }

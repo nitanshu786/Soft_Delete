@@ -42,11 +42,24 @@ namespace WebApplication1
             services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwagerOptions>();
 
             services.AddScoped<IRegisterRepo, RegisterRepo>();
+            services.AddScoped<IEmployee, Employe>();
             services.AddAutoMapper(typeof(MappingProfile));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApplication1", Version = "v1" });
+            });
+            //Core
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "MyCores",
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:4200")
+                        .AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                    });
             });
 
             //JWT TOKEN 
@@ -85,7 +98,7 @@ namespace WebApplication1
             }
 
             app.UseHttpsRedirection();
-
+            app.UseCors("MyCores"); 
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
